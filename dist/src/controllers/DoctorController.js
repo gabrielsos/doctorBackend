@@ -48,7 +48,7 @@ var ClassesController = /** @class */ (function () {
             var doctor;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, connection_1.default.raw("select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.id")];
+                    case 0: return [4 /*yield*/, connection_1.default.raw("select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.crm")];
                     case 1:
                         doctor = _a.sent();
                         return [2 /*return*/, response.json(doctor)];
