@@ -8,6 +8,13 @@ export default class ClassesController {
     return response.json(doctor[0]);
   }
 
+  async getByCrm (request: Request, response: Response) {
+    const { crm } = request.params;
+    const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) where d.crm = ${crm} group by d.crm`)
+
+    return response.json(doctor[0]);
+  }
+
   async delete(request: Request, response: Response) {
     const { crm } = request.params;
 
@@ -20,6 +27,7 @@ export default class ClassesController {
   async update(request: Request, response: Response) {
     const { name, crm, telephone, city, state, specialtyId } = request.body;
 
+    console.log(name, specialtyId);
     await db('doctor').update({
       name,
       crm,
