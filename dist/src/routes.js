@@ -12,6 +12,7 @@ var doctorController = new DoctorController_1.default();
 routes.post('/specialty', specialtyController.create);
 routes.post('/doctor', doctorController.create);
 routes.get('/doctor', doctorController.index);
+routes.get('/doctor/:crm', doctorController.getByCrm);
 routes.get('/specialty', specialtyController.index);
 routes.delete('/doctor/:crm', doctorController.delete);
 routes.put('/doctor', doctorController.update);

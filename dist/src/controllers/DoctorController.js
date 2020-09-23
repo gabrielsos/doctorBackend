@@ -56,6 +56,21 @@ var ClassesController = /** @class */ (function () {
             });
         });
     };
+    ClassesController.prototype.getByCrm = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var crm, doctor;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        crm = request.params.crm;
+                        return [4 /*yield*/, connection_1.default.raw("select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) where d.crm = " + crm + " group by d.crm")];
+                    case 1:
+                        doctor = _a.sent();
+                        return [2 /*return*/, response.json(doctor[0])];
+                }
+            });
+        });
+    };
     ClassesController.prototype.delete = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
             var crm;
@@ -81,6 +96,7 @@ var ClassesController = /** @class */ (function () {
                 switch (_c.label) {
                     case 0:
                         _a = request.body, name = _a.name, crm = _a.crm, telephone = _a.telephone, city = _a.city, state = _a.state, specialtyId = _a.specialtyId;
+                        console.log(name, specialtyId);
                         return [4 /*yield*/, connection_1.default('doctor').update({
                                 name: name,
                                 crm: crm,
