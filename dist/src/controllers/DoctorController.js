@@ -91,49 +91,37 @@ var ClassesController = /** @class */ (function () {
     };
     ClassesController.prototype.update = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var crm, _a, name, telephone, city, state, specialtyId, i, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
+            var _a, name, crm, telephone, city, state, specialtyId, i;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        crm = request.params.crm;
-                        _a = request.body, name = _a.name, telephone = _a.telephone, city = _a.city, state = _a.state, specialtyId = _a.specialtyId;
-                        console.log({ name: name, telephone: telephone, city: city, state: state, specialtyId: specialtyId, crm: crm });
-                        return [4 /*yield*/, connection_1.default('doctor_specialty').delete('*').where('doctor_crm', '=', crm)];
+                        _a = request.body, name = _a.name, crm = _a.crm, telephone = _a.telephone, city = _a.city, state = _a.state, specialtyId = _a.specialtyId;
+                        return [4 /*yield*/, connection_1.default('doctor').update({
+                                name: name,
+                                telephone: telephone,
+                                city: city,
+                                state: state
+                            }).where('doctor.crm', '=', crm)];
                     case 1:
-                        _c.sent();
-                        i = 0;
-                        _c.label = 2;
+                        _b.sent();
+                        return [4 /*yield*/, connection_1.default.raw("delete from doctor_specialty where doctor_crm = " + crm)];
                     case 2:
-                        if (!(i < specialtyId.length)) return [3 /*break*/, 9];
-                        _c.label = 3;
+                        _b.sent();
+                        i = 0;
+                        _b.label = 3;
                     case 3:
-                        _c.trys.push([3, 5, , 6]);
-                        return [4 /*yield*/, connection_1.default('doctor_specialty')
-                                .update({
+                        if (!(i < specialtyId.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, connection_1.default('doctor_specialty').insert({
                                 doctor_crm: crm,
                                 specialty_id: specialtyId[i]
                             })];
                     case 4:
-                        _c.sent();
-                        return [3 /*break*/, 6];
+                        _b.sent();
+                        _b.label = 5;
                     case 5:
-                        _b = _c.sent();
-                        console.log('especialidade ja cadastrada');
-                        return [3 /*break*/, 6];
-                    case 6: return [4 /*yield*/, connection_1.default('doctor').update({
-                            name: name,
-                            crm: crm,
-                            telephone: telephone,
-                            city: city,
-                            state: state
-                        }).where('doctor.crm', '=', crm)];
-                    case 7:
-                        _c.sent();
-                        _c.label = 8;
-                    case 8:
                         i++;
-                        return [3 /*break*/, 2];
-                    case 9: return [2 /*return*/, response.status(201).send()];
+                        return [3 /*break*/, 3];
+                    case 6: return [2 /*return*/, response.status(201).send()];
                 }
             });
         });

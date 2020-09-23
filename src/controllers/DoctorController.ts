@@ -25,26 +25,23 @@ export default class ClassesController {
   }
 
   async update(request: Request, response: Response) {
-    const { crm } = request.params;
-    const { name, telephone, city, state, specialtyId } = request.body;
+    const { name, crm, telephone, city, state, specialtyId } = request.body;
 
     await db('doctor').update({
       name,
-      crm,
       telephone,
       city,
       state
     }).where('doctor.crm', '=', crm);
 
+    await db.raw(`delete from doctor_specialty where doctor_crm = ${crm}`);
 
-      try {
-        await db.raw(`update doctor_specialty set doctor_specialty.specialty_id = '${specialtyId[0]}' where doctor_specialty.doctor_crm = '${crm}'`)
-      } catch {
-        console.log('especialidade ja cadastrada');
-      }
-
-
-
+    for(let i = 0; i < specialtyId.length; i++) {
+      await db('doctor_specialty').insert({
+        doctor_crm: crm,
+        specialty_id: specialtyId[i]
+      });
+    }
 
     return response.status(201).send();
   }
