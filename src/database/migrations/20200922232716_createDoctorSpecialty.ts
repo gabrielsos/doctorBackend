@@ -3,8 +3,8 @@ import * as Knex from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable('doctor_specialty', table => {
-    table.string('doctor_id')
-      .references('id')
+    table.string('doctor_crm')
+      .references('crm')
       .inTable('doctor')
       .onUpdate('cascade')
       .onDelete('cascade');
@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
       .onUpdate('cascade')
       .onDelete('cascade');
 
-    table.primary(['doctor_id', 'specialty_id']);
+    table.primary(['doctor_crm', 'specialty_id']);
   });
 }
 
