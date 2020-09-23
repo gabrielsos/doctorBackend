@@ -62,14 +62,14 @@ var ClassesController = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        crm = request.body.crm;
-                        return [4 /*yield*/, connection_1.default('doctor').delete().where('doctor.crm', '=', crm)];
+                        crm = request.params.crm;
+                        return [4 /*yield*/, connection_1.default('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, connection_1.default('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm)];
+                        return [4 /*yield*/, connection_1.default('doctor').delete().where('doctor.crm', '=', crm)];
                     case 2:
                         _a.sent();
-                        return [2 /*return*/, response.status(201).send()];
+                        return [2 /*return*/, response.json(crm)];
                 }
             });
         });

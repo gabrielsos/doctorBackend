@@ -13,6 +13,6 @@ routes.post('/specialty', specialtyController.create);
 routes.post('/doctor', doctorController.create);
 routes.get('/doctor', doctorController.index);
 routes.get('/specialty', specialtyController.index);
-routes.delete('/doctor', doctorController.delete);
+routes.delete('/doctor/:crm', doctorController.delete);
 routes.put('/doctor', doctorController.update);
 exports.default = routes;
