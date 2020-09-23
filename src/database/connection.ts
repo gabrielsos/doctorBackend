@@ -5,7 +5,7 @@ const db = Knex({
   connection: {
     host : 'sql10.freemysqlhosting.net',
     user : 'sql10367042',
-    password : process.env.APP_DB_PASSWORD,
+    password : 'u6bTKIyZJc',
     database : 'sql10367042'
   },
   useNullAsDefault: true,
