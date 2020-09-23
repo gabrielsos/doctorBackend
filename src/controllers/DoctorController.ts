@@ -42,7 +42,7 @@ export default class ClassesController {
           .update({
             doctor_crm: crm,
             specialty_id: specialtyId[i]
-          })
+          }).where('doctor_crm', '=', crm)
       } catch {
         console.log('especialidade ja cadastrada');
       }
