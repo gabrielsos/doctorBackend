@@ -36,15 +36,15 @@ export default class ClassesController {
       state
     }).where('doctor.crm', '=', crm);
 
-    for(let i = 0; i < specialtyId.length; i++) {
+
       try {
-        await db.raw(`update doctor_specialty set doctor_specialty.specialty_id = '${specialtyId[i]}' where doctor_specialty.doctor_crm = '${crm}'`)
+        await db.raw(`update doctor_specialty set doctor_specialty.specialty_id = '${specialtyId[0]}' where doctor_specialty.doctor_crm = '${crm}'`)
       } catch {
         console.log('especialidade ja cadastrada');
       }
 
 
-    }
+
 
     return response.status(201).send();
   }
