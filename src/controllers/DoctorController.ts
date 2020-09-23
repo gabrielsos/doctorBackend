@@ -5,7 +5,7 @@ export default class ClassesController {
   async index (request: Request, response: Response) {
     const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.crm`)
 
-    return response.json(doctor);
+    return response.json(doctor[0]);
   }
 
   async delete(request: Request, response: Response) {
@@ -14,7 +14,7 @@ export default class ClassesController {
     await db('doctor').delete().where('doctor.crm', '=', crm);
     await db('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm);
 
-    return response.json({status: 'done'});
+    return response.status(201).send();
   }
 
   async update(request: Request, response: Response) {
@@ -42,7 +42,7 @@ export default class ClassesController {
       }
     }
 
-    return response.json({status: 'done'});
+    return response.status(201).send();
   }
 
   async create (request: Request, response: Response) {

@@ -6,7 +6,7 @@ export default class SpecialtyController {
   async index (request: Request, response: Response) {
     const specialty = await db.raw(`select * from specialty`);
 
-    return response.json(specialty);
+    return response.json(specialty[0]);
   }
 
   async create (request: Request, response: Response) {
