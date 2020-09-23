@@ -36,7 +36,6 @@ export default class ClassesController {
       state
     }).where('doctor.crm', '=', crm);
 
-    await db('doctor_specialty').delete('*').where('doctor_crm', '=', crm);
     for(let i = 0; i < specialtyId.length; i++) {
       try {
         await db('doctor_specialty')
