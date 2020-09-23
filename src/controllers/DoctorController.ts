@@ -28,7 +28,13 @@ export default class ClassesController {
     const { crm } = request.params;
     const { name, telephone, city, state, specialtyId } = request.body;
 
-    console.log({ name, telephone, city, state, specialtyId, crm});
+    await db('doctor').update({
+      name,
+      crm,
+      telephone,
+      city,
+      state
+    }).where('doctor.crm', '=', crm);
 
     await db('doctor_specialty').delete('*').where('doctor_crm', '=', crm);
     for(let i = 0; i < specialtyId.length; i++) {
@@ -42,13 +48,6 @@ export default class ClassesController {
         console.log('especialidade ja cadastrada');
       }
 
-    await db('doctor').update({
-      name,
-      crm,
-      telephone,
-      city,
-      state
-    }).where('doctor.crm', '=', crm);
 
     }
 
