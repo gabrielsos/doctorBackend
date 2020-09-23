@@ -52,7 +52,7 @@ var SpecialtyController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, connection_1.default.raw("select * from specialty")];
                     case 1:
                         specialty = _a.sent();
-                        return [2 /*return*/, response.json(specialty)];
+                        return [2 /*return*/, response.json(specialty[0])];
                 }
             });
         });

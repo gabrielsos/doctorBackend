@@ -51,7 +51,7 @@ var ClassesController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, connection_1.default.raw("select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.crm")];
                     case 1:
                         doctor = _a.sent();
-                        return [2 /*return*/, response.json(doctor)];
+                        return [2 /*return*/, response.json(doctor[0])];
                 }
             });
         });
@@ -69,7 +69,7 @@ var ClassesController = /** @class */ (function () {
                         return [4 /*yield*/, connection_1.default('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm)];
                     case 2:
                         _a.sent();
-                        return [2 /*return*/, response.json({ status: 'done' })];
+                        return [2 /*return*/, response.status(201).send()];
                 }
             });
         });
@@ -115,7 +115,7 @@ var ClassesController = /** @class */ (function () {
                     case 7:
                         i++;
                         return [3 /*break*/, 2];
-                    case 8: return [2 /*return*/, response.json({ status: 'done' })];
+                    case 8: return [2 /*return*/, response.status(201).send()];
                 }
             });
         });
