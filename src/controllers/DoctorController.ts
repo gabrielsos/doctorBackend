@@ -25,9 +25,23 @@ export default class ClassesController {
   }
 
   async update(request: Request, response: Response) {
-    const { name, crm, telephone, city, state, specialtyId } = request.body;
+    const { crm } = request.params;
+    const { name, telephone, city, state, specialtyId } = request.body;
 
-    console.log(name, specialtyId);
+    console.log({ name, telephone, city, state, specialtyId, crm});
+
+    await db('doctor_specialty').delete('*').where('doctor_crm', '=', crm);
+    for(let i = 0; i < specialtyId.length; i++) {
+      try {
+        await db('doctor_specialty')
+          .update({
+            doctor_crm: crm,
+            specialty_id: specialtyId[i]
+          })
+      } catch {
+        console.log('especialidade ja cadastrada');
+      }
+
     await db('doctor').update({
       name,
       crm,
@@ -36,18 +50,6 @@ export default class ClassesController {
       state
     }).where('doctor.crm', '=', crm);
 
-    for(let i = 0; i < specialtyId.length; i++) {
-      try {
-        await db('doctor_specialty').delete('*').where('doctor_crm', '=', crm);
-
-        await db('doctor_specialty')
-          .insert({
-            doctor_crm: crm,
-            specialty_id: specialtyId
-          })
-      } catch {
-        console.log('especialidade ja cadastrada');
-      }
     }
 
     return response.status(201).send();

@@ -15,5 +15,5 @@ routes.get('/doctor', doctorController.index);
 routes.get('/doctor/:crm', doctorController.getByCrm);
 routes.get('/specialty', specialtyController.index);
 routes.delete('/doctor/:crm', doctorController.delete);
-routes.put('/doctor', doctorController.update);
+routes.put('/doctor/:crm', doctorController.update);
 exports.default = routes;
