@@ -3,6 +3,12 @@ import { Request, Response } from 'express';
 import { uuid } from 'uuidv4';
 
 export default class SpecialtyController {
+  async index (request: Request, response: Response) {
+    const specialty = await db.raw(`select * from specialty`);
+
+    return response.json(specialty);
+  }
+
   async create (request: Request, response: Response) {
     const {
       name,

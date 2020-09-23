@@ -44,6 +44,19 @@ var uuidv4_1 = require("uuidv4");
 var SpecialtyController = /** @class */ (function () {
     function SpecialtyController() {
     }
+    SpecialtyController.prototype.index = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var specialty;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, connection_1.default.raw("select * from specialty")];
+                    case 1:
+                        specialty = _a.sent();
+                        return [2 /*return*/, response.json(specialty)];
+                }
+            });
+        });
+    };
     SpecialtyController.prototype.create = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
             var name, trx, err_1;
