@@ -9,12 +9,12 @@ export default class ClassesController {
   }
 
   async delete(request: Request, response: Response) {
-    const { crm } = request.body;
+    const { crm } = request.params;
 
-    await db('doctor').delete().where('doctor.crm', '=', crm);
     await db('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm);
+    await db('doctor').delete().where('doctor.crm', '=', crm);
 
-    return response.status(201).send();
+    return response.json(crm);
   }
 
   async update(request: Request, response: Response) {
