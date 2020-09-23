@@ -1,48 +1,40 @@
-import * as Knex from 'knex';
 import db from '../database/connection';
 import { Request, Response } from 'express';
 
 export default class ClassesController {
   async index (request: Request, response: Response) {
-    const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.id = de.doctor_id) inner join specialty e on (de.specialty_id = e.id) group by d.id`)
-
-    console.log(doctor[0]);
+    const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.id`)
 
     return response.json(doctor);
   }
 
   async delete(request: Request, response: Response) {
-    const { id } = request.body;
+    const { crm } = request.body;
 
-    console.log(id);
-
-    await db('doctor').delete().where('doctor.id', '=', id);
-    await db('doctor_specialty').delete().where('doctor_specialty.doctor_id', '=', id);
+    await db('doctor').delete().where('doctor.crm', '=', crm);
+    await db('doctor_specialty').delete().where('doctor_specialty.doctor_crm', '=', crm);
 
     return response.json({status: 'done'});
   }
 
   async update(request: Request, response: Response) {
-    const { id, name, crm, telephone, city, uf, specialtyId } = request.body;
-
-    console.log(specialtyId);
+    const { name, crm, telephone, city, state, specialtyId } = request.body;
 
     await db('doctor').update({
       name,
       crm,
       telephone,
       city,
-      uf
-    }).where('doctor.id', '=', id);
+      state
+    }).where('doctor.crm', '=', crm);
 
     for(let i = 0; i < specialtyId.length; i++) {
-      console.log(specialtyId[i]);
       try {
-        await db('doctor_specialty').delete('*').where('doctor_id', '=', id);
+        await db('doctor_specialty').delete('*').where('doctor_crm', '=', crm);
 
         await db('doctor_specialty')
           .insert({
-            doctor_id: id,
+            doctor_crm: crm,
             specialty_id: specialtyId
           })
       } catch {
@@ -59,30 +51,35 @@ export default class ClassesController {
       crm,
       telephone,
       city,
-      uf,
+      state,
       specialtyId
     } = request.body;
 
+    const trx = await db.transaction();
+
     try {
-      await db('doctor').insert({
+      await trx('doctor').insert({
         name,
         crm,
         telephone,
         city,
-        uf,
+        state,
       });
 
-      const doctorId = await db('doctor').where('crm', '=', crm).select('id');
+      for(let i = 0; i < specialtyId.length; i++) {
+        await trx('doctor_specialty').insert({
+          doctor_crm: crm,
+          specialty_id: specialtyId[i]
+        });
+      }
 
-      await db('doctor_specialty').insert({
-        doctor_id: doctorId[0].id,
-        specialty_id: specialtyId
-      });
+      await trx.commit();
 
       return response.status(201).send();
 
     } catch (err) {
 
+      await trx.rollback();
       return response.status(400).json({
         error: 'Unexpected error while creating new doctor'
       })
