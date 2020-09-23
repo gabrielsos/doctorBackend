@@ -1,5 +1,6 @@
 import db from '.././database/connection';
 import { Request, Response } from 'express';
+import { uuid } from 'uuidv4';
 
 export default class SpecialtyController {
   async create (request: Request, response: Response) {
@@ -7,13 +8,11 @@ export default class SpecialtyController {
       name,
     } = request.body;
 
-    const date = Date.now();
-    const date2 = Date.now();
     const trx = await db.transaction();
-    console.log(name, date, date2)
 
     try {
       await trx('specialty').insert({
+        id: uuid(),
         name
       });
 

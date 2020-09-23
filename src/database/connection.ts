@@ -1,13 +1,12 @@
 import Knex from 'knex';
-import path from 'path';
 
 const db = Knex({
   client: 'mysql',
   connection: {
-    host : '127.0.0.1',
-    user : 'root',
-    password : 'root',
-    database : 'doctorsDB'
+    host : 'sql10.freemysqlhosting.net',
+    user : 'sql10367042',
+    password : process.env.APP_DB_PASSWORD,
+    database : 'sql10367042'
   },
   useNullAsDefault: true,
 });
