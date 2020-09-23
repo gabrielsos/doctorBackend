@@ -5,7 +5,7 @@ module.exports = {
   connection: {
     host : 'sql10.freemysqlhosting.net',
     user : 'sql10367042',
-    password : 'u6bTKIyZJc',
+    password : process.env.APP_DB_PASSWORD,
     database : 'sql10367042'
   },
   migrations: {
