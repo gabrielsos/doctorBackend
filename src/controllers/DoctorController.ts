@@ -40,9 +40,8 @@ export default class ClassesController {
       try {
         await db('doctor_specialty')
           .update({
-            doctor_crm: crm,
             specialty_id: specialtyId[i]
-          }).where('doctor_crm', '=', crm)
+          }).where('doctor_specialty.doctor_crm', '=', crm)
       } catch {
         console.log('especialidade ja cadastrada');
       }
