@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 export default class ClassesController {
   async index (request: Request, response: Response) {
-    const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.id`)
+    const doctor = await db.raw(`select d.*, group_concat(distinct e.name separator ', ') as specialty from doctor d inner join doctor_specialty de on (d.crm = de.doctor_crm) inner join specialty e on (de.specialty_id = e.id) group by d.crm`)
 
     return response.json(doctor);
   }
